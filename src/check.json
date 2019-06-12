@@ -1,0 +1,19 @@
+{
+  "wall": {
+    "name": "Черные стены",
+    "thickness": 1.0
+  },
+  "window": {
+    "name": "Заколоченные",
+    "height": 6.0
+  },
+  "name": "PRIVET",
+  "rectangle": {
+    "coordinate": {
+      "x": 60.004967,
+      "y": 30.332884
+    },
+    "length": 200.0,
+    "width": 90.0
+  }
+}
