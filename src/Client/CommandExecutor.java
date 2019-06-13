@@ -1,6 +1,6 @@
 package Client;
 
-import Collection.FortressArrayList;
+import Collection.FortressList;
 import UTILS.CommandResolver;
 import UTILS.FileLoader;
 import UTILS.UserCommand;
@@ -8,10 +8,7 @@ import UTILS.Message;
 import com.google.gson.Gson;
 
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.SocketAddress;
-import java.net.UnknownHostException;
+import java.net.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
 
@@ -21,22 +18,24 @@ import java.nio.channels.DatagramChannel;
 public class CommandExecutor {
 
     private int SERVER_PORT = 8012;
-    private SocketAddress serverSocketAdress;
+    private SocketAddress serverSocketAddress;
     private DatagramChannel udpChannel;
     private UserCommand userCommand;
 
     private CommandReader commandReader = new CommandReader();
     private static final CommandResolver commandResolver = new CommandResolver();
 
+    private boolean sended = false;
+
     public CommandExecutor() throws UnknownHostException, IOException {
-        serverSocketAdress = new InetSocketAddress(InetAddress.getLocalHost(), SERVER_PORT);
+        serverSocketAddress = new InetSocketAddress(InetAddress.getLocalHost(), SERVER_PORT);
         udpChannel = DatagramChannel.open();
-        udpChannel.connect(serverSocketAdress);
+        udpChannel.connect(serverSocketAddress);
     }
 
     void startWork() {
 
-        while (true) {
+        while(true) {
             inviting();
             userCommand = commandReader.readCommand();
             processCommand(userCommand);
@@ -73,12 +72,15 @@ public class CommandExecutor {
             try {
                 send(message);
 
-                Message serverReply = Message.deserialize(receive());
-                commandResolver.handleReply(userCommand, serverReply);
+                if(sended) {
+                    byte[] bytes = receive();
+                    if(bytes != null) {
+                        Message serverReply = Message.deserialize(bytes);
+                        commandResolver.handleReply(userCommand, serverReply);
+                    }
+                }
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
+            } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
         } else {
@@ -88,23 +90,35 @@ public class CommandExecutor {
 
     private void send(Message message) throws IOException {
         byte[] bytes = message.serialize();
-        udpChannel.write(ByteBuffer.wrap(bytes));
+        try {
+            udpChannel.write(ByteBuffer.wrap(bytes));
+            sended = true;
+        } catch (PortUnreachableException e) {
+            System.out.println("Сервер недоступен");
+        }
     }
 
     private byte[] receive() throws IOException {
         ByteBuffer byteBuffer = ByteBuffer.allocate(8192);
-        udpChannel.read(byteBuffer);
-        return byteBuffer.array();
+        try {
+            udpChannel.read(byteBuffer);
+            return byteBuffer.array();
+        } catch (PortUnreachableException e) {
+            System.out.println("Сервер недоступен");
+        } finally {
+            sended = false;
+        }
+        return null;
     }
 
-    private FortressArrayList clientImport() {
+    private FortressList clientImport() {
         try {
             String json = FileLoader.getFileContent(userCommand.getArg());
-            return new Gson().fromJson(json, FortressArrayList.class);
+            return new Gson().fromJson(json, FortressList.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
         System.out.println("Ошибка. Импорт невозможен.");
-        return new FortressArrayList();
+        return new FortressList();
     }
 }

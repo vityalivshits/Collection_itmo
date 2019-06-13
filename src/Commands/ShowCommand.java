@@ -1,6 +1,7 @@
 package Commands;
 
-import Collection.FortressArrayList;
+import Collection.FortressComparator;
+import Collection.FortressList;
 import UTILS.CollectionEntity;
 import UTILS.Message;
 import UTILS.ParcelContainer;
@@ -8,11 +9,12 @@ import UTILS.ParcelContainer;
 public class ShowCommand implements Command {
     @Override
     public void clientRun(Message serverReply) {
-        ((FortressArrayList) serverReply.getAttachment()).show();
+        ((FortressList) serverReply.getAttachment()).show();
     }
 
     @Override
     public void serverRun(ParcelContainer container) {
+        CollectionEntity.getInstance().getCollection().getFortresses().sort(new FortressComparator());
         send(container, new Message(CollectionEntity.getInstance().getCollection()));
     }
 }

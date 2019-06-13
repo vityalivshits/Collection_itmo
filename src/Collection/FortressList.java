@@ -1,12 +1,11 @@
 package Collection;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class FortressArrayList implements Serializable {
+public class FortressList implements Serializable {
 
     private Date date;
 
@@ -14,7 +13,7 @@ public class FortressArrayList implements Serializable {
 
     private List<Fortress> fortresses = new CopyOnWriteArrayList<>();
 
-    public FortressArrayList() {
+    public FortressList() {
         date = new Date();
     }
 
@@ -40,7 +39,7 @@ public class FortressArrayList implements Serializable {
         System.out.println(builder.toString());
     }
 
-    public FortressArrayList clear() {
+    public FortressList clear() {
         fortresses.clear();
         return this;
     }
@@ -71,4 +70,6 @@ public class FortressArrayList implements Serializable {
     public List<Fortress> getFortresses() {
         return fortresses;
     }
+
+
 }

@@ -1,6 +1,6 @@
 package UTILS;
 
-import Collection.FortressArrayList;
+import Collection.FortressList;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -8,25 +8,28 @@ import java.io.IOException;
 public class CollectionEntity {
     private static CollectionEntity instance;
 
-    private FortressArrayList collection;
+    private FortressList collection;
 
     private CollectionEntity() {
         collection = basicLoad();
     }
 
-    public void setCollection(FortressArrayList collection) {
+    public void setCollection(FortressList collection) {
         this.collection = collection;
     }
 
-    public FortressArrayList getCollection() {
+    public FortressList getCollection() {
         return collection;
     }
 
     public static CollectionEntity getInstance() {
+        if(instance == null) {
+            instance = new CollectionEntity();
+        }
         return instance;
     }
 
-    private FortressArrayList basicLoad() {
+    private FortressList basicLoad() {
 
         String json = null;
         try {
@@ -34,7 +37,7 @@ public class CollectionEntity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        FortressArrayList newFAL = new Gson().fromJson(json, FortressArrayList.class);
+        FortressList newFAL = new Gson().fromJson(json, FortressList.class);
         System.out.println(("Загрузка состояния успешно проведена."));
         return newFAL;
     }

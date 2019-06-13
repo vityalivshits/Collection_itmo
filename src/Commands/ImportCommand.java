@@ -1,7 +1,7 @@
 package Commands;
 
 import Collection.Fortress;
-import Collection.FortressArrayList;
+import Collection.FortressList;
 import UTILS.CollectionEntity;
 import UTILS.Message;
 import UTILS.ParcelContainer;
@@ -12,8 +12,8 @@ public class ImportCommand implements Command {
 
         if(container.getMessage().attachmentExists()) {
             Object obj = container.getMessage().getAttachment();
-            if(obj instanceof FortressArrayList) {
-                FortressArrayList receivedFAL = (FortressArrayList) obj;
+            if(obj instanceof FortressList) {
+                FortressList receivedFAL = (FortressList) obj;
 
                 for(Fortress f:receivedFAL.getFortresses()) {
                     CollectionEntity

@@ -1,6 +1,6 @@
 package Commands;
 
-import Collection.FortressArrayList;
+import Collection.FortressList;
 import UTILS.CollectionEntity;
 import UTILS.FileLoader;
 import UTILS.Message;
@@ -16,7 +16,7 @@ public class LoadCommand implements Command {
         if(container.getMessage().attachmentExists()) {
             try {
                 String json = FileLoader.getFileContent((String) container.getMessage().getAttachment());
-                FortressArrayList newFAL = new Gson().fromJson(json, FortressArrayList.class);
+                FortressList newFAL = new Gson().fromJson(json, FortressList.class);
                 CollectionEntity.getInstance().setCollection(newFAL);
                 send(container, new Message("Загрузка состояния успешно проведена."));
             } catch (IOException e) {

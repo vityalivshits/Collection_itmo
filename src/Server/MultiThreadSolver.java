@@ -1,20 +1,16 @@
 package Server;
 
-import UTILS.CommandResolver;
 import UTILS.Message;
 import UTILS.ParcelContainer;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
+import java.net.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class MultiThreadSolver extends Thread{
+public class MultiThreadSolver {
 
-    private static ExecutorService executorService = Executors.newCachedThreadPool();
+    private static ExecutorService executorService = Executors.newFixedThreadPool(10);
 
     private int SERVER_PORT = 8012;
     private byte[] BUFFER = new byte[8192];
@@ -25,7 +21,8 @@ public class MultiThreadSolver extends Thread{
     private InetAddress receivedInetAddress;
     private int receivedPort;
 
-    public MultiThreadSolver() {}
+    public MultiThreadSolver() {
+    }
 
     public void StartListening() {
         datagramPacket = new DatagramPacket(BUFFER, BUFFER.length);
@@ -34,7 +31,6 @@ public class MultiThreadSolver extends Thread{
             udpSocket = new DatagramSocket(SERVER_PORT);
         } catch (SocketException e) {
             System.out.println("Невозможно создать сокет.");
-            e.printStackTrace();
             System.exit(0);
         }
 

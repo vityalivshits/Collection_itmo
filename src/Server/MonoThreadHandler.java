@@ -3,7 +3,7 @@ package Server;
 import UTILS.CommandResolver;
 import UTILS.ParcelContainer;
 
-public class MonoThreadHandler implements Runnable {
+public class MonoThreadHandler implements Runnable{
 
     private ParcelContainer container;
     private static final CommandResolver commandResolver = new CommandResolver();

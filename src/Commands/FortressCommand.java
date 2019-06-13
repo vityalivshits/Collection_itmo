@@ -1,7 +1,6 @@
 package Commands;
 
 import Collection.Fortress;
-import Collection.FortressArrayList;
 import UTILS.Message;
 import UTILS.ParcelContainer;
 
