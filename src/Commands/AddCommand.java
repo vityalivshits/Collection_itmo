@@ -10,7 +10,7 @@ public class AddCommand implements FortressCommand {
     public void operation(Fortress fortress, ParcelContainer container) {
         CollectionEntity
                 .getInstance()
-                .getCollection()
+                .getCollection().getFortresses()
                 .add(fortress);
         send(container, new Message("Крепость успешно добавлена."));
     }

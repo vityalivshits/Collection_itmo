@@ -52,10 +52,8 @@ public class MultiThreadSolver {
 
         } catch (IOException e) {
             System.out.println("Ошибка ввода-вывода.");
-            e.printStackTrace();
         } catch (ClassNotFoundException e) {
             System.out.println("Не найден класс. Чтоо?");
-            e.printStackTrace();
         }
         return message;
     }

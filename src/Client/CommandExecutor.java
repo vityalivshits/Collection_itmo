@@ -25,12 +25,18 @@ public class CommandExecutor {
     private CommandReader commandReader = new CommandReader();
     private static final CommandResolver commandResolver = new CommandResolver();
 
-    private boolean sended = false;
+    private boolean sent = false;
 
-    public CommandExecutor() throws UnknownHostException, IOException {
-        serverSocketAddress = new InetSocketAddress(InetAddress.getLocalHost(), SERVER_PORT);
-        udpChannel = DatagramChannel.open();
-        udpChannel.connect(serverSocketAddress);
+    public CommandExecutor()  {
+        try {
+            serverSocketAddress = new InetSocketAddress(InetAddress.getLocalHost(), SERVER_PORT);
+            udpChannel = DatagramChannel.open();
+            udpChannel.connect(serverSocketAddress);
+        } catch (UnknownHostException e) {
+            System.out.println("Неизвестный хост.");
+        } catch (IOException e) {
+            System.out.println("Ну и как ты получил I/O exception?");
+        }
     }
 
     void startWork() {
@@ -39,7 +45,6 @@ public class CommandExecutor {
             inviting();
             userCommand = commandReader.readCommand();
             processCommand(userCommand);
-
         }
     }
 
@@ -58,9 +63,9 @@ public class CommandExecutor {
                     commandResolver.handleReply(userCommand, serverReply);
                     return;
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    System.out.println("Ну и как ты получил I/O exception?");
                 } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
+                    System.out.println("На машине нет необходимого класса.");
                 }
             } else {
                 System.out.println("Файл не задан.");
@@ -72,7 +77,7 @@ public class CommandExecutor {
             try {
                 send(message);
 
-                if(sended) {
+                if(sent) {
                     byte[] bytes = receive();
                     if(bytes != null) {
                         Message serverReply = Message.deserialize(bytes);
@@ -80,8 +85,10 @@ public class CommandExecutor {
                     }
                 }
 
-            } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
+            } catch (IOException e) {
+                System.out.println("Как ты получил I/O ?");
+            } catch (ClassNotFoundException e) {
+                System.out.println("На машине нет необходимого класса.");
             }
         } else {
             System.out.println("Неизвестная команда, попробуйте ее раз");
@@ -92,21 +99,23 @@ public class CommandExecutor {
         byte[] bytes = message.serialize();
         try {
             udpChannel.write(ByteBuffer.wrap(bytes));
-            sended = true;
+            sent = true;
         } catch (PortUnreachableException e) {
             System.out.println("Сервер недоступен");
         }
     }
 
-    private byte[] receive() throws IOException {
+    private byte[] receive()  {
         ByteBuffer byteBuffer = ByteBuffer.allocate(8192);
         try {
             udpChannel.read(byteBuffer);
             return byteBuffer.array();
         } catch (PortUnreachableException e) {
             System.out.println("Сервер недоступен");
+        } catch (IOException e) {
+            System.out.println("Ну и как ты этот I/O exception получил??");
         } finally {
-            sended = false;
+            sent = false;
         }
         return null;
     }
@@ -116,7 +125,7 @@ public class CommandExecutor {
             String json = FileLoader.getFileContent(userCommand.getArg());
             return new Gson().fromJson(json, FortressList.class);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Ну и как ты получил этот I/O?");
         }
         System.out.println("Ошибка. Импорт невозможен.");
         return new FortressList();

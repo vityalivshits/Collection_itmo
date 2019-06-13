@@ -14,7 +14,7 @@ public class FortressList implements Serializable {
     private List<Fortress> fortresses = new CopyOnWriteArrayList<>();
 
     public FortressList() {
-        date = new Date();
+        setDate();
     }
 
     public void removeLower(Fortress fortress) {
@@ -26,22 +26,14 @@ public class FortressList implements Serializable {
         }
     }
 
-    public int getSize() {
-        return fortresses.size();
-    }
-
     public synchronized void show() {
-        StringBuilder builder = new StringBuilder();
-
-        for(Fortress f: fortresses) {
-            builder.append(f.toString()).append("\n");
-        }
-        System.out.println(builder.toString());
+        String[] result = {""};
+        fortresses.stream().forEach(c->result[0]+=c.toString());
+        System.out.println(result[0]);
     }
 
-    public FortressList clear() {
+    public void clear() {
         fortresses.clear();
-        return this;
     }
 
     public void removeAll(Fortress fortress) {
@@ -63,7 +55,7 @@ public class FortressList implements Serializable {
         System.out.println(("Initialization date: " + date + "\n"
                 + "Amount of elements: " + fortresses.size()));
     }
-    public void setDate() {
+    private void setDate() {
         date = new Date();
     }
 

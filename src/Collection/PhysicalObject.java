@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 public class PhysicalObject implements Serializable {
     private String name;
-    public Rectangle rectangle;
+    Rectangle rectangle;
 
-    public PhysicalObject(String name, Rectangle rectangle){
+    PhysicalObject(String name, Rectangle rectangle){
         setName(name);
         this.rectangle = rectangle;
     }
@@ -15,7 +15,7 @@ public class PhysicalObject implements Serializable {
         return rectangle;
     }
 
-    public String getName() {
+    String getName() {
         return name;
     }
 
