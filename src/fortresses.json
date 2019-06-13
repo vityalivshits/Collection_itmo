@@ -1,0 +1,43 @@
+{
+  "date": "Jun 8, 2019 3:01:13 PM",
+  "fortresses": [
+    {
+      "wall": {
+        "name": "Черные стены",
+        "thickness": 1.0
+      },
+      "window": {
+        "name": "Заколоченные",
+        "height": 6.0
+      },
+      "name": "Raf25",
+      "rectangle": {
+        "coordinate": {
+          "x": 60.004967,
+          "y": 30.332884
+        },
+        "length": 200.0,
+        "width": 90.0
+      }
+    },
+    {
+      "wall": {
+        "name": "Разрисованные стены",
+        "thickness": 1.0
+      },
+      "window": {
+        "name": "Заколоченные",
+        "height": 5.0
+      },
+      "name": "Borovaya116",
+      "rectangle": {
+        "coordinate": {
+          "x": 59.90707,
+          "y": 30.340899
+        },
+        "length": 100.0,
+        "width": 70.0
+      }
+    }
+  ]
+}

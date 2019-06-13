@@ -12,7 +12,7 @@ public class MultiThreadSolver {
 
     private static ExecutorService executorService = Executors.newFixedThreadPool(10);
 
-    private int SERVER_PORT = 8012;
+    private final int SERVER_PORT;
     private byte[] BUFFER = new byte[8192];
     private DatagramPacket datagramPacket;
     private DatagramSocket udpSocket;
@@ -21,7 +21,8 @@ public class MultiThreadSolver {
     private InetAddress receivedInetAddress;
     private int receivedPort;
 
-    public MultiThreadSolver() {
+    public MultiThreadSolver(int port) {
+        SERVER_PORT = port;
     }
 
     public void StartListening() {

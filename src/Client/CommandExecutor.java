@@ -12,12 +12,9 @@ import java.net.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
 
-//todo IMPORT
-//todo клиент босает все что угодно, а сервер уэе разбирается
-
 public class CommandExecutor {
 
-    private int SERVER_PORT = 8012;
+    private final int SERVER_PORT;
     private SocketAddress serverSocketAddress;
     private DatagramChannel udpChannel;
     private UserCommand userCommand;
@@ -27,7 +24,12 @@ public class CommandExecutor {
 
     private boolean sent = false;
 
-    public CommandExecutor()  {
+    public CommandExecutor(int port)  {
+        SERVER_PORT = port;
+
+    }
+
+    void startWork() {
         try {
             serverSocketAddress = new InetSocketAddress(InetAddress.getLocalHost(), SERVER_PORT);
             udpChannel = DatagramChannel.open();
@@ -37,9 +39,6 @@ public class CommandExecutor {
         } catch (IOException e) {
             System.out.println("Ну и как ты получил I/O exception?");
         }
-    }
-
-    void startWork() {
 
         while(true) {
             inviting();

@@ -38,9 +38,9 @@ public class Fortress extends PhysicalObject implements Serializable {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("Имя: " + getName() + "\n");
-        builder.append("Длина: " + rectangle.getLength() + "\n");
-        builder.append(("Ширина: " + rectangle.getWidth() + "\n"));
+        builder.append("Name: " + getName() + "\n");
+        builder.append("Length: " + rectangle.getLength() + "\n");
+        builder.append(("Width: " + rectangle.getWidth() + "\n"));
         return builder.toString();
     }
 
